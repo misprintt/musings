@@ -108,6 +108,7 @@ class ConstantsTest
 	public function shouldReturnInt()
 	{
 		Assert.areEqual(1, INT.asInt());
+		Assert.areEqual(1,FLOAT.asInt());
 		Assert.isNull(STRING.asInt());
 	}
 
@@ -123,14 +124,7 @@ class ConstantsTest
 	public function shouldReturnString()
 	{
 		Assert.areEqual("foo", STRING.asString());
-		Assert.isNull(FLOAT.asString());
-	}
-
-	@Test
-	public function shouldReturnIdent()
-	{
-		Assert.areEqual("foobar", VAR.asIdent());
-		Assert.isNull(STRING.asIdent());
+		Assert.areEqual("1.1", FLOAT.asString());
 	}
 
 	@Test

@@ -17,6 +17,11 @@ class Types
 
 	#if macro
 
+	/**
+	Alias for Context.getType()
+
+	@see haxe.macro.Context.getType
+	*/
 	inline static public function toType(ident:String):Type
 	{
 		return Context.getType(ident);
@@ -38,7 +43,7 @@ class Types
 	}
 
 	/**
-	Wrapper for haxe.macro.TypeTools.toString
+	Alias for haxe.macro.TypeTools.toString
 
 	@see haxe.macro.TypeTools.toString
 	*/
@@ -48,7 +53,7 @@ class Types
 	}
 
 	/**
-	Wrapper for haxe.macro.TypeTools.getClass
+	Alias for haxe.macro.TypeTools.getClass
 
 	@see haxe.macro.TypeTools.getClass
 	*/

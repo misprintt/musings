@@ -6,10 +6,6 @@ import haxe.macro.Context;
 
 using musings.Tools;
 
-// #if macro
-// using tink.macro.tools.TypeTools;
-// #end
-
 /**
 	This class provides some utility methods to work with TypePath instances. It is
 	best used through 'using musings.TypePaths' syntax and then provides

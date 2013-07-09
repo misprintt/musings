@@ -230,7 +230,7 @@ class Constants
 		return switch(c)
 		{
 			case CRegexp(_): true;
-			default: false;
+			case _: false;
 		}
 	}
 
@@ -246,7 +246,8 @@ class Constants
 		return switch(c)
 		{
 			case CInt(v): Std.parseInt(v);
-			default: null;
+			case CFloat(v): Std.int(Std.parseFloat(v));
+			case _: null;
 		}
 	}
 
@@ -261,7 +262,7 @@ class Constants
 		{
 			case CFloat(v): Std.parseFloat(v);
 			case CInt(v): Std.parseFloat(v);
-			default: null;
+			case _: null;
 		}
 	}
 
@@ -272,26 +273,10 @@ class Constants
 	*/
 	inline static public function asString(c:Constant):Null<String>
 	{
-		return switch(c)
-		{
-			case CString(v): v;
-			default: null;
-		}
+		return getValue(c);
 	}
 
-	/**
-	Returns string ident value of constant [c]
-
-	If [c] is not of type CIdent then result is null
-	*/
-	inline static public function asIdent(c:Constant):Null<String>
-	{
-		return switch(c)
-		{
-			case CIdent(v): v;
-			default: null;
-		}
-	}
+	
 
 	/**
 	Returns bool value of constant [c]
@@ -304,7 +289,7 @@ class Constants
 		{
 			case CIdent("true") : true;
 			case CIdent("false") : false;
-			default: null;
+			case _: null;
 		}
 	}
 
@@ -318,7 +303,7 @@ class Constants
 		return switch(c)
 		{
 			case CRegexp(r,opt): new EReg(r, opt);
-			default: null;
+			case _: null;
 		}
 	}
 
