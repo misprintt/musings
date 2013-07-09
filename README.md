@@ -163,23 +163,23 @@ Extracting values from `Constants`
 		
 		CFloat("1.5").resolve(); //1.5		
 
-- **asInt** - Returns `Int` value of a `CFloat` or 'CInt'
+- **parseInt** - Returns `Int` value of a `CFloat` or 'CInt'
 		
 		CInt("1").parseInt(); //1		
 
-- **asFloat** - Returns `Float` value of a `CFloat` or 'CInt'
+- **aparseFloat** - Returns `Float` value of a `CFloat` or 'CInt'
 		
 		CFloat("1.5").parseFloat(); //1.5		
 
-- **asString** - Returns `String` value of any `Constant`
+- **parseString** - Returns `String` value of any `Constant`
 		
 		CIdent("foo").parseString(); //"foo"		
 
-- **asBool** -  Returns the `Bool` value of a `Constant`
+- **parseBool** -  Returns the `Bool` value of a `Constant`
 		
 		CIdent("true").parseBool(); //true		
 
-- **asRegexp** - Returns the `EReg` value of a `Constant`
+- **parseRegexp** - Returns the `EReg` value of a `Constant`
 		
 		CRegExpr(".*").parseRegexpr();		
 
