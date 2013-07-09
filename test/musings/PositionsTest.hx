@@ -6,7 +6,7 @@ import massive.munit.async.AsyncFactory;
 import haxe.macro.Expr;
 import haxe.macro.Type;
 
-using musings.Positions;
+using musings.Tools;
 
 class PositionsTest
 {

@@ -5,8 +5,8 @@ import massive.munit.Assert;
 import massive.munit.async.AsyncFactory;
 import haxe.macro.Expr;
 import haxe.macro.Type;
-
 import test.TestClasses;
+
 using musings.Tools;
 
 class ComplexTypesTest
