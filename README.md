@@ -20,20 +20,18 @@ Notes
 
 > musings includes inlined aliases for some existing haxe.macro API methods in order to simplify the number of `using` dependencies.
 
+> You can toggle this via the `-D include_std_aliases` compiler flag.
+
 
 ### Types
 
-
 Creating `Type` instances from other value types
-
 
 - **toType** - Alias for `haxe.macro.Context.getType`
 
 		var type:Type = "foo.Bar".toType();
 
-
 Convert `Type` instances into other value types
-
 
 - **getId** - Convert a type to a string identifier
 
@@ -51,8 +49,6 @@ Convert `Type` instances into other value types
 		
 		var typeParam = type.toTypeParam();
 
-
-
 Extracting values from `Type` instances
 
 - **getClassType** - Alias for `haxe.macro.TypeTools.getClass`		
@@ -63,15 +59,11 @@ Extracting values from `Type` instances
 		
 		var params = type.getParams();
 
-
-
-
 ### ComplexTypes
 
 - **toComplexType** - Convert an ident to a ComplexType path	
 
 		var complexType = "foo.Bar".toComplexType();
-
 
 ### Exprs
 
@@ -98,7 +90,6 @@ Manipulating `Expr` contents
 - **reduce** - Macro-time evaluation of expressions like binops, constants & mapped idents (recursive)
 		
 		(macro 1 + 2.5).reduce(); //3.5
-
 
 ### Constants
 
@@ -192,8 +183,6 @@ Extracting values from `Constants`
 		
 		CRegExpr(".*").parseRegexpr();		
 
-
-
 ### Fields
 
 Converting `Field` instance into other types
@@ -201,7 +190,6 @@ Converting `Field` instance into other types
 - **toString** - Returns a `String` representation of a Field (Alias for `haxe.macro.Printer.printField`)
 		
 		field.toString();		
-
 
 Creating `Field` instance from existing values
 
@@ -213,10 +201,7 @@ Creating `Field` instance from existing values
 		
 		field.clone();		
 
-
-
 Extracting properties of a `Field` instance
-
 
 - **getExpr** - returns the `Expr` defined on a field
 		

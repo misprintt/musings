@@ -13,6 +13,8 @@ using musings.Tools;
 
 	It also avoids calling Context APIs when not executing within the macro context,
 	allowing unit testing of macro related code.
+
+	Generally used internally within other musing classes
 **/
 
 class Positions
