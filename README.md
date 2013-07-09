@@ -2,8 +2,7 @@
 
 Utility library for manipulating Haxe 3 macro types.
 
-A collection of `using` APIs that extend the functionality of `haxe.macro.Tools` for working with macro types.
-
+A collection of `using` APIs that extend the functionality of `haxe.macro.Tools` for working with macros. 
 
 Usage
 
@@ -13,26 +12,43 @@ Usage
 Goals
 
 - simpify manipulating macro types via `using`
-- very granular APIs
+- keep API as granular as possible
 - a fully unit tested macro library
 
 
 Notes
 
-> musings includes inlined aliases for some existing haxe.macro API methods in order to reduce to a single `using` dependency.
+> musings includes inlined aliases for some existing haxe.macro API methods in order to simplify the number of `using` dependencies.
 
 
 ### Types
 
+
+Creating `Type` instances from other value types
+
 | method | description | example |
 | -----| ------|-----|
 |toType|Alias for `haxe.macro.Context.getType(`| `var type:Type = "foo.Bar".toType();`|
+
+
+Convert `Type` instances into other value types
+
+| method | description | example |
+| -----| ------|-----|
 |getId|Convert a type to a string identifier| `var ident = type.getId(); //"foo.Bar"`|
 |toString|Alias for `haxe.macro.TypeTools.toString`| `var string = type.toString();`|
-|getClassType|Alias for `haxe.macro.TypeTools.getClass`| `var string = type.toString();`|
-|getParams|Extracts an array of param types from a TInst type| `var params = type.getParams();`|
 |toComplexType|Alias for `haxe.macro.TypeTools.toComplexType`| `var complexType = type.toComplexType();`|
 |toTypeParam|Converts a Type to a TypeParam| `var typeParam = type.toTypeParam();`|
+
+
+
+Extracting values from `Type` instances
+
+| method | description | exam
+| -----| ------|-----|
+|getClassType|Alias for `haxe.macro.TypeTools.getClass`| `var string = type.toString();`|
+|getParams|Extracts an array of param types from a TInst type| `var params = type.getParams();`|
+
 
 
 
@@ -45,11 +61,20 @@ Notes
 
 ### Exprs
 
+
+Converting `Expr` into other types
+
+
 | method | description | example |
 | -----| ------|-----|
 |toExpr|Converts an ExprDef [e] (and optional Position [pos]) into an Expr | `var e = EBlock([]).toExpr();`|
-|at|Shorthand for `toExpr` for those familar with the tink macro api | `var e = EBlock([]).at();`|
 |toFieldExpr|Converts a string ident into an EField | `var e = "foo".toFieldExpr();`|
+|at|Shorthand for `toExpr` for those familar with the tink macro api | `var e = EBlock([]).at();`|
+
+Manipulating `Expr` contents
+
+| method | description | exam
+| -----| ------|-----|
 |qualify|Explicitly qualifies type references within an expression tree (recursive)| `(macro Bar).toFieldExpr().qualify(); //foo.Bar`|
 |reduce|Macro-time evaluation of expressions like binops, constants & mapped idents (recursive)| `(macro 1 + 2.5).reduce(); //3.5`|
 
@@ -90,10 +115,34 @@ Extracting values from `Constants`
 | method | description | example |
 | -----| ------|-----|
 |getValue|Returns the raw string value of a `Constant` | `CInt("1").getValue(); //"1"` |
-|resolve|Returns the value defined in a `Constant` based on its tpye | `CFloat("1.5").resolve(); //1.5` |
+|resolve|Returns the value defined in a `Constant` based on its type | `CFloat("1.5").resolve(); //1.5` |
 |asInt|Returns `Int` value of a `CFloat` or 'CInt' | `CInt("1").asInt(); //1` |
 |asFloat|Returns `Float` value of a `CFloat` or 'CInt' | `CFloat("1.5").asFloat(); //1.5` |
 |asString|Returns `String` value of any `Constant` | `CIdent("foo").asString(); //"foo"` |
 |asBool| Returns the `Bool` value of a `Constant` | `CIdent("true").asBool(); //true` |
 |asRegexp|Returns the `EReg` value of a `Constant` | `CRegExpr(".*").asRegexpr();` |
 
+
+### Fields
+
+Converting `Field` instance into other types
+
+| method | description | example |
+| -----| ------|-----|
+|toString|Returns a `String` representation of a Field (Alias for `haxe.macro.Printer.printField`) | `field.toString();` |
+
+Creating `Field` instance from existing values
+
+| method | description | example |
+| -----| ------|-----|
+|toField|Returns a `Field` based of a `name` and `FieldKind` | `"foo".toField(fieldKind);` |
+|clone|Returns a copy of a field | `field.clone();` |
+
+
+Extracting properties of a `Field` instance
+
+
+| method | description | example |
+| -----| ------|-----|
+|getExpr|returns the `Expr` defined on a field | `field.getExpr();` |
+|getComplexType|Returns the `ComplexType` of a field | `field.getComplexType();` |
