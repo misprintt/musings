@@ -167,7 +167,7 @@ Extracting values from `Constants`
 		
 		CInt("1").parseInt(); //1		
 
-- **aparseFloat** - Returns `Float` value of a `CFloat` or 'CInt'
+- **parseFloat** - Returns `Float` value of a `CFloat` or 'CInt'
 		
 		CFloat("1.5").parseFloat(); //1.5		
 
