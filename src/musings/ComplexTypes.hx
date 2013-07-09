@@ -17,8 +17,35 @@ class ComplexTypes
 	/**
 	Generates a ComplexType from a qualified path
 	*/
-	static public function toComplexType(ident:String):ComplexType
+	inline static public function toComplexType(ident:String):ComplexType
 	{
 		return TPath(ident.toTypePath());
 	}
+
+	#if include_std_aliases
+	/**
+	Alias for haxe.macro.ComplexTypeTools.toString
+
+	@see haxe.macro.ComplexTypeTools.toString
+	*/
+	inline static public function toString(c:ComplexType):String
+	{
+		return haxe.macro.ComplexTypeTools.toString(c);
+	}
+
+
+	#if macro
+	/**
+	Alias for haxe.macro.ComplexTypeTools.toType
+
+	@see haxe.macro.ComplexTypeTools.toType
+	*/
+	inline static public function toType(c:ComplexType):Null<Type>
+	{
+		return haxe.macro.ComplexTypeTools.toType(c);
+	}
+
+	#end
+
+	#end
 }

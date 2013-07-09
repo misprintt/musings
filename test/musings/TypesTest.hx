@@ -8,6 +8,8 @@ import haxe.macro.Type;
 import test.TestClasses;
 using musings.Tools;
 
+
+
 class TypesTest
 {
 
@@ -28,7 +30,7 @@ class TypesTest
 	{
 		try
 		{
-			var id = e.getConstant().asString();
+			var id = e.getConstant().parseString();
 			var type = id.toType();
 
 			return CString(type.toString()).at(); 
@@ -54,7 +56,15 @@ class TypesTest
 			var id = e.toString();
 			var type = id.toType();
 
-			var reduce = reduceExpr.getConstant().asBool();
+			var const = reduceExpr.getConstant();
+
+			var reduce = false;
+
+			if(const.isBool())
+			{
+				reduce = const.parseBool();
+			}
+
 
 			return CString(type.getId(reduce)).at(); 
 		}

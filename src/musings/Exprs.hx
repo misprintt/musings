@@ -33,7 +33,9 @@ class Exprs
 	}
 
 	/**
-	Converts a qualified path into a EField reference
+	Converts a qualified path into a EField reference using `haxe.macro.ExprTools.toFieldExpr'
+	
+	@see haxe.macro.ExprTools.toFieldExpr
 	*/
 	inline static public function toFieldExpr(ident:String,?pos:Position):Expr
 	{
@@ -182,5 +184,39 @@ class Exprs
 
 		return null;
 	}
+
+
+	#if include_std_aliases
+	/**
+	Alias for haxe.macro.ExprTools.toString
+
+	@see haxe.macro.ExprTools.toString
+	*/
+	inline static public function toString(e:Expr):String
+	{
+		return haxe.macro.ExprTools.toString(e);
+	}
+
+	/**
+	Alias for haxe.macro.ExprTools.iter
+
+	@see haxe.macro.ExprTools.iter
+	*/
+	inline static public function iter( e : Expr, f : Expr -> Void ) : Void
+	{
+		return haxe.macro.ExprTools.iter(e,f);
+	}
+
+	/**
+	Alias for haxe.macro.ExprTools.map
+
+	@see haxe.macro.ExprTools.map
+	*/
+	inline static public function map( e : Expr, f : Expr -> Expr ) : Expr
+	{
+		return haxe.macro.ExprTools.map(e,f);
+	}
+
+	#end
 	
 }

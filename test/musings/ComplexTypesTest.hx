@@ -56,4 +56,26 @@ class ComplexTypesTest
 		Assert.areEqual("a.b.C.D", c.toString());
 	}
 
+	@Test
+	public function shouldConvertToType()
+	{
+		Assert.areEqual("test.SomeClass", macro_toType(test.SomeClass));
+	}
+
+	macro static function macro_toType(e:Expr):Expr
+	{
+		try
+		{
+			var ident = e.toString();
+			var complexType = ident.toComplexType();
+			var type = complexType.toType();
+
+			return type.toString().toConstant().at();
+		}
+		catch(e:Dynamic)
+		{
+			return Std.string(e).toConstant().at();
+		}
+	}
+
 }

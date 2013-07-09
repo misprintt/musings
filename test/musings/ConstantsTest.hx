@@ -28,17 +28,44 @@ class ConstantsTest
 	}
 
 	@Test
-	public function shouldReturnConstant()
+	public function shouldParseConstant()
 	{
 		var expr = {expr:EConst(INT), pos:null};
 		Assert.areEqual(INT, expr.getConstant());
 	}
 
+
 	@Test
-	public function shouldReturnNullIfNotConst()
+	public function shouldReturnTrueIfEConst()
+	{
+		var expr = {expr:EConst(INT), pos:null};
+		Assert.isTrue(expr.hasConstant());
+	}
+
+
+	@Test
+	public function shouldReturnFalseIfNotEConst()
 	{
 		var expr = {expr:EContinue, pos:null};
-		Assert.isNull(expr.getConstant());
+		Assert.isFalse(expr.hasConstant());
+	}
+
+
+	@Test
+	public function shouldThrowExceptionIfExprIsNotEConst()
+	{
+		try
+		{
+			var expr = {expr:EContinue, pos:null};
+			expr.getConstant();
+			Assert.fail("exception expected");
+		}
+		catch(e:Dynamic) {
+
+			Assert.isTrue(true);
+		}
+
+		
 	}
 
 	@Test
@@ -105,44 +132,69 @@ class ConstantsTest
 	//-------------------------------------------------------------------------- accessing constant values
 
 	@Test
-	public function shouldReturnInt()
+	public function shouldParseInt()
 	{
-		Assert.areEqual(1, INT.asInt());
-		Assert.areEqual(1,FLOAT.asInt());
-		Assert.isNull(STRING.asInt());
+		try
+		{
+			Assert.isNull(STRING.parseInt());
+			Assert.fail("exception expected");
+		}
+		catch(e:Dynamic) {}
+
+		Assert.areEqual(1, INT.parseInt());
+		Assert.areEqual(1,FLOAT.parseInt());
+		
 	}
 
 	@Test
-	public function shouldReturnFloat()
+	public function shouldParseFloat()
 	{
-		Assert.areEqual(1.1, FLOAT.asFloat());
-		Assert.areEqual(1.0, INT.asFloat());
-		Assert.isNull(STRING.asFloat());
+		try
+		{
+			Assert.isNull(STRING.parseFloat());
+			Assert.fail("exception expected");
+		}
+		catch(e:Dynamic) {}
+
+		Assert.areEqual(1.1, FLOAT.parseFloat());
+		Assert.areEqual(1.0, INT.parseFloat());
 	}
 
 	@Test
-	public function shouldReturnString()
+	public function shouldParseString()
 	{
-		Assert.areEqual("foo", STRING.asString());
-		Assert.areEqual("1.1", FLOAT.asString());
+		Assert.areEqual("foo", STRING.parseString());
+		Assert.areEqual("1.1", FLOAT.parseString());
 	}
 
 	@Test
-	public function shouldReturnBool()
+	public function shouldParseBool()
 	{
-		Assert.isTrue(TRUE.asBool());
-		Assert.isFalse(FALSE.asBool());
-		Assert.isNull(STRING.asBool());
+		try
+		{
+			Assert.isNull(STRING.parseBool());
+			Assert.fail("exception expected");
+		}
+		catch(e:Dynamic) {}
+
+		Assert.isTrue(TRUE.parseBool());
+		Assert.isFalse(FALSE.parseBool());
 	}
 
 	@Test
-	public function shouldReturnRegexp()
+	public function shouldParseRegexp()
 	{
-		var reg = REGEXP.asRegexp();
+		try
+		{
+			Assert.isNull(STRING.parseRegexp());
+			Assert.fail("exception expected");
+		}
+		catch(e:Dynamic) {}
+
+		var reg = REGEXP.parseRegexp();
 		Assert.isNotNull(reg);
 		Assert.isTrue(reg.match("Foo"));
 		Assert.isFalse(reg.match("bar"));
-		Assert.isNull(STRING.asRegexp());
 	}
 
 	@Test
@@ -178,6 +230,15 @@ class ConstantsTest
 	@Test
 	public function shouldCreateConstant()
 	{
+
+		try
+		{
+			Assert.isNull({foo:"bar"}.toConstant());//cannot be represented as a constant
+			Assert.fail("exception expected");
+		}
+		catch(e:Dynamic) {}
+
+
 		Assert.areEqual(TRUE, true.toConstant());
 		Assert.areEqual(FALSE, false.toConstant());
 
@@ -187,7 +248,6 @@ class ConstantsTest
 		Assert.areEqual(FLOAT, 1.1.toConstant());
 		Assert.areEqual(STRING, "foo".toConstant());
 
-		Assert.isNull({foo:"bar"}.toConstant());//cannot be represented as a constant
 
 		Assert.areEqual(INT, INT.toConstant());//should return existing constant
 

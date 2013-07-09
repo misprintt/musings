@@ -13,6 +13,19 @@ using musings.Tools;
 class Constants
 {
 	/**
+	Returns true if an expression is a EConst
+	*/
+	inline static public function hasConstant(e:Expr):Bool
+	{
+		return switch(e.expr)
+		{
+			case EConst(c): true;
+			case _: false;
+		}
+	}
+
+
+	/**
 	Returns the Constant value within an expr [e].
 
 	If [e] does not contain an EConst then result is null
@@ -22,7 +35,7 @@ class Constants
 		return switch(e.expr)
 		{
 			case EConst(c): c;
-			default: null;
+			case _: throw "EConst instance expected";
 		}
 	}
 
@@ -37,6 +50,7 @@ class Constants
 
 	//-------------------------------------------------------------------------- check methods
 	
+
 
 	/**
 	Returns a Constant based on the type of [v]
@@ -72,7 +86,7 @@ class Constants
 				else
 					CIdent(name);
 			case TEnum(_): CIdent(s);
-			default: null;
+			case _: throw "Cannot convert [\"" + s + "\"] to Constant";
 		}
 	}
 
@@ -111,12 +125,12 @@ class Constants
 
 	If [c] is of type CIdent and is not a primitive value (true,false,null) then result is null 
 	*/
-	static public function resolve(c:Constant):Dynamic
+	static public function resolve(c:Constant):Null<Dynamic>
 	{
 		return switch(c)
 		{
-			case CInt(_): c.asInt();
-			case CFloat(_): c.asFloat();
+			case CInt(_): c.parseInt();
+			case CFloat(_): c.parseFloat();
 			case CString(v): v;
 			case CIdent(v):
 				var r:Dynamic = switch(v)
@@ -127,7 +141,7 @@ class Constants
 					default: null;
 				}
 				r;
-			case CRegexp(_): c.asRegexp();
+			case CRegexp(_): c.parseRegexp();
 			#if !haxe3
 			case CType(_): null;
 			#end
@@ -241,13 +255,13 @@ class Constants
 
 	If [c] is not of type CInt then result is null
 	*/
-	inline static public function asInt(c:Constant):Null<Int>
+	inline static public function parseInt(c:Constant):Int
 	{
 		return switch(c)
 		{
 			case CInt(v): Std.parseInt(v);
 			case CFloat(v): Std.int(Std.parseFloat(v));
-			case _: null;
+			case _: throw "Constant [\"" + c.toString() + "\"] cannot be parsed as Int";
 		}
 	}
 
@@ -256,13 +270,13 @@ class Constants
 
 	If [c] is not of type CFloat or CInt then result is null
 	*/
-	inline static public function asFloat(c:Constant):Null<Float>
+	inline static public function parseFloat(c:Constant):Float
 	{
 		return switch(c)
 		{
 			case CFloat(v): Std.parseFloat(v);
 			case CInt(v): Std.parseFloat(v);
-			case _: null;
+			case _: throw "Constant [\"" + c.toString() + "\"] cannot be parsed as Float";
 		}
 	}
 
@@ -271,7 +285,7 @@ class Constants
 
 	If [c] is not of type CString then result is null
 	*/
-	inline static public function asString(c:Constant):Null<String>
+	inline static public function parseString(c:Constant):String
 	{
 		return getValue(c);
 	}
@@ -283,13 +297,13 @@ class Constants
 
 	If [c] is not of type CIdent("true") or CIdent("false") then result is null
 	*/
-	inline static public function asBool(c:Constant):Null<Bool>
+	inline static public function parseBool(c:Constant):Bool
 	{
 		return switch(c)
 		{
 			case CIdent("true") : true;
 			case CIdent("false") : false;
-			case _: null;
+			case _: throw "Constant [\"" + c.toString() + "\"] cannot be parsed as Bool";
 		}
 	}
 
@@ -298,12 +312,12 @@ class Constants
 
 	If [c] is not of type CRegexp then result is null
 	*/
-	inline static public function asRegexp(c:Constant):EReg
+	inline static public function parseRegexp(c:Constant):EReg
 	{
 		return switch(c)
 		{
 			case CRegexp(r,opt): new EReg(r, opt);
-			case _: null;
+			case _: throw "Constant [\"" + c.toString() + "\"] cannot be parsed as EReg";
 		}
 	}
 

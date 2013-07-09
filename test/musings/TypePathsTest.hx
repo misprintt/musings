@@ -94,7 +94,7 @@ class TypePathsTest
 	{
 		try
 		{	var id = e.toString();
-			var type = Types.toType(id);
+			var type = id.toType();
 			var complexType = type.toComplexType();
 			var typePath = id.toTypePath();
 
