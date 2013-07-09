@@ -1,0 +1,17 @@
+## Neko
+-main TestMain
+-lib munit
+-lib hamcrest
+-cp src
+-cp test
+-D musings_test
+ -neko bin/neko_test.n
+
+# --next
+
+# --interp
+# -x TestMain
+# -lib munit
+# -lib hamcrest
+# -cp src
+# -cp test

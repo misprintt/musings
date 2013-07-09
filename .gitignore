@@ -1,0 +1,5 @@
+bin
+.temp
+report/**
+/musings.sublime-workspace
+/musings.sublime-project
