@@ -6,6 +6,7 @@ import haxe.macro.Printer;
 import haxe.macro.ExprTools;
 
 typedef TExprTools = haxe.macro.ExprTools;
+typedef TMacroStringTools = haxe.macro.MacroStringTools;
 typedef TExprArrayTools = haxe.macro.ExprTools.ExprArrayTools;
 typedef TTypeTools = haxe.macro.TypeTools;
 typedef TComplexTypeTools = haxe.macro.ComplexTypeTools;

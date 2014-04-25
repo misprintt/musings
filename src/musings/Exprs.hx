@@ -1,4 +1,4 @@
-	package musings;
+package musings;
 
 import haxe.macro.Expr;
 import haxe.macro.Type;
@@ -6,6 +6,7 @@ import haxe.macro.Context;
 import haxe.macro.Compiler;
 
 using musings.Tools;
+
 
 /**
 	This class provides additional utility methods for working with Exprs in 
@@ -32,17 +33,17 @@ class Exprs
 		return e.toExpr(pos);
 	}
 
+	#if macro
+
 	/**
 	Converts a qualified path into a EField reference using `haxe.macro.ExprTools.toFieldExpr'
 	
 	@see haxe.macro.ExprTools.toFieldExpr
 	*/
 	inline static public function toFieldExpr(ident:String,?pos:Position):Expr
-	{
-		return ident.split(".").toFieldExpr();
+	{		
+		return haxe.macro.MacroStringTools.toFieldExpr(ident.split("."));
 	}
-
-	#if macro
 	/**
 	Replaces unqualified type references within expr [e] with fully qualified ones 
 	*/

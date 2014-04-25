@@ -60,9 +60,21 @@ class ExprsTest
 	{
 		var pos = Positions.makePos();
 		var expected = EField(CIdent("foo").at(pos), "Bar").at(pos);
-		var actual = "foo.Bar".toFieldExpr(pos);
 
-		Assert.areEqual(expected.toString(),actual.toString());
+		Assert.areEqual("\"" + expected.toString() + "\"",macro_toFieldExpr("foo.Bar"));
+	}
+
+	macro static function macro_toFieldExpr(e:Expr):Expr
+	{
+		try
+		{
+			var expr = e.toString().toFieldExpr();
+			return CString(expr.toString()).at();
+		}
+		catch(e:Dynamic)
+		{
+			return CString(Std.string(e)).at();
+		}
 	}
 
 	@Test
@@ -119,7 +131,7 @@ class ExprsTest
 	@Test
 	public function shouldReduceNestedExprs()
 	{
-		Assert.areEqual("[1.5,2]", macro_reduce([1+0.5, 2]));
+		Assert.areEqual("[1.5, 2]", macro_reduce([1+0.5, 2]));
 	}
 
 

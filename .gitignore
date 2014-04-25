@@ -3,3 +3,4 @@ bin
 report/**
 /musings.sublime-workspace
 /musings.sublime-project
+.DS_Store

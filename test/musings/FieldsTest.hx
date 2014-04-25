@@ -85,7 +85,6 @@ class FieldsTest
 		Assert.areEqual(null, fUntypedVar.getComplexType());
 	}
 
-
 	@Test
 	public function shouldCreateField()
 	{
@@ -119,15 +118,13 @@ class FieldsTest
 		clone.access = [AStatic];
 
 		clone = clone.clone();
-
 	}
 
 	@Test
 	public function shouldPrint()
 	{
 		Assert.areEqual("var field", "field".toField().toString());
-		Assert.areEqual("var variable:Test=1", fVar.toString());
-		Assert.areEqual("var property(default,null):Test=1", fProp.toString());
+		Assert.areEqual("var variable : Test = 1", fVar.toString());
+		Assert.areEqual("var property(default, null) : Test = 1", fProp.toString());
 	}
-
 }
