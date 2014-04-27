@@ -17,7 +17,7 @@ using musings.Tools;
 class Fields
 {
 	/**
-	Returns the Expr value within an field [f].
+		Returns the Expr value within an field [f].
 	*/
 	inline static public function getExpr(f:Field):Expr
 	{
@@ -30,9 +30,9 @@ class Fields
 	}
 
 	/**
-	Returns the complex type defined within field [f].
+		Returns the complex type defined within field [f].
 
-	If [f] is a function then the return type is returned
+		If [f] is a function then the return type is returned
 	*/
 	inline static public function getComplexType(f:Field):ComplexType
 	{
@@ -45,9 +45,9 @@ class Fields
 	}
 
 	/**
-	Returns a new field instance populated with [name] and [kind]
+		Returns a new field instance populated with [name] and [kind]
 	
-	If [kind] is null then an kind is set to empty FVar
+		If [kind] is null then an kind is set to empty FVar
 	*/
 	static public function toField(name:String, ?kind:FieldType, ?pos:Position):Field
 	{
@@ -61,7 +61,7 @@ class Fields
 
 
 	/**
-	Returns a copy of field [f].
+		Returns a copy of field [f].
 	*/
 	static public function clone(f:Field):Field
 	{
@@ -77,7 +77,7 @@ class Fields
 	}
 
 	/**
-	Returns a string representation of the field [f] using haxe.macro.Printer
+		Returns a string representation of the field [f] using haxe.macro.Printer
 	*/
 	inline static public function toString(f:Field):String
 	{

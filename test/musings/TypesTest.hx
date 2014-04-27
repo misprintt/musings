@@ -21,14 +21,15 @@ class TypesTest
 	{
 		Assert.areEqual("test.SomeClass", macro_toType("SomeClass"));
 		Assert.areEqual("test.SomeClass", macro_toType("test.SomeClass"));
-		Assert.areEqual("test.SomeAlias", macro_toType("SomeAlias"));
+		Assert.areEqual("test.SomeClass", macro_toType("test.TestClasses.SomeClass"));
+		Assert.areEqual("test.SomeAlias", macro_toType("test.SomeAlias"));
 	}
 
 	macro static function macro_toType(e:Expr):Expr
 	{
 		try
 		{
-			var id = e.getConstant().parseString();
+			var id = e.getConstant().getString();
 			var type = id.toType();
 
 			return CString(type.toString()).at(); 
@@ -60,7 +61,7 @@ class TypesTest
 
 			if(const.isBool())
 			{
-				reduce = const.parseBool();
+				reduce = const.getBool();
 			}
 
 

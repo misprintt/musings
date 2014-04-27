@@ -125,12 +125,12 @@ class Constants
 
 	If [c] is of type CIdent and is not a primitive value (true,false,null) then result is null 
 	*/
-	static public function resolve(c:Constant):Null<Dynamic>
+	static public function toValue(c:Constant):Null<Dynamic>
 	{
 		return switch(c)
 		{
-			case CInt(_): c.parseInt();
-			case CFloat(_): c.parseFloat();
+			case CInt(_): c.getInt();
+			case CFloat(_): c.getFloat();
 			case CString(v): v;
 			case CIdent(v):
 				var r:Dynamic = switch(v)
@@ -141,7 +141,7 @@ class Constants
 					default: null;
 				}
 				r;
-			case CRegexp(_): c.parseRegexp();
+			case CRegexp(_): c.getRegexp();
 			#if !haxe3
 			case CType(_): null;
 			#end
@@ -255,7 +255,7 @@ class Constants
 
 	If [c] is not of type CInt then result is null
 	*/
-	inline static public function parseInt(c:Constant):Int
+	inline static public function getInt(c:Constant):Int
 	{
 		return switch(c)
 		{
@@ -270,7 +270,7 @@ class Constants
 
 	If [c] is not of type CFloat or CInt then result is null
 	*/
-	inline static public function parseFloat(c:Constant):Float
+	inline static public function getFloat(c:Constant):Float
 	{
 		return switch(c)
 		{
@@ -285,7 +285,7 @@ class Constants
 
 	If [c] is not of type CString then result is null
 	*/
-	inline static public function parseString(c:Constant):String
+	inline static public function getString(c:Constant):String
 	{
 		return getValue(c);
 	}
@@ -297,7 +297,7 @@ class Constants
 
 	If [c] is not of type CIdent("true") or CIdent("false") then result is null
 	*/
-	inline static public function parseBool(c:Constant):Bool
+	inline static public function getBool(c:Constant):Bool
 	{
 		return switch(c)
 		{
@@ -312,7 +312,7 @@ class Constants
 
 	If [c] is not of type CRegexp then result is null
 	*/
-	inline static public function parseRegexp(c:Constant):EReg
+	inline static public function getRegexp(c:Constant):EReg
 	{
 		return switch(c)
 		{

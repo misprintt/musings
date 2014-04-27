@@ -77,6 +77,7 @@ class ExprsTest
 		}
 	}
 
+
 	@Test
 	public function shouldQualifyConstExpr()
 	{
@@ -146,4 +147,45 @@ class ExprsTest
 			return CString(Std.string(e)).at();
 		}
 	}
+
+	// ------------------------------------------------------------------------- ExprDef manipulation
+
+
+	@Test
+	public function should_get_field()
+	{
+		var pos = Positions.makePos();
+		var expr:Expr = CIdent("foo").at(pos);
+		var expected = EField(expr, "Bar").at(pos);
+
+		var result = expr.makeField("Bar", pos);
+
+		Assert.areEqual(expected.toString(), result.toString());
+	}
+
+	@Test
+	public function should_get_call()
+	{
+		var pos = Positions.makePos();
+		var expr:Expr = CIdent("foo").at(pos);
+		var expected = ECall(expr, []).at(pos);
+
+		var result = expr.makeCall([], pos);
+
+		Assert.areEqual(expected.toString(), result.toString());
+	}
+
+	@Test
+	public function should_convert_to_arrayDecl()
+	{
+		var pos = Positions.makePos();
+		var expr:Expr = CIdent("foo").at(pos);
+		var exprs:Array<Expr> = [expr];
+		var expected = EArrayDecl(exprs).at(pos);
+
+		var result = exprs.makeArray(pos);
+
+		Assert.areEqual(expected.toString(), result.toString());
+	}
+
 }

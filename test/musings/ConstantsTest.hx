@@ -132,66 +132,66 @@ class ConstantsTest
 	//-------------------------------------------------------------------------- accessing constant values
 
 	@Test
-	public function shouldParseInt()
+	public function shouldGetInt()
 	{
 		try
 		{
-			Assert.isNull(STRING.parseInt());
+			Assert.isNull(STRING.getInt());
 			Assert.fail("exception expected");
 		}
 		catch(e:Dynamic) {}
 
-		Assert.areEqual(1, INT.parseInt());
-		Assert.areEqual(1,FLOAT.parseInt());
+		Assert.areEqual(1, INT.getInt());
+		Assert.areEqual(1,FLOAT.getInt());
 		
 	}
 
 	@Test
-	public function shouldParseFloat()
+	public function shouldGetFloat()
 	{
 		try
 		{
-			Assert.isNull(STRING.parseFloat());
+			Assert.isNull(STRING.getFloat());
 			Assert.fail("exception expected");
 		}
 		catch(e:Dynamic) {}
 
-		Assert.areEqual(1.1, FLOAT.parseFloat());
-		Assert.areEqual(1.0, INT.parseFloat());
+		Assert.areEqual(1.1, FLOAT.getFloat());
+		Assert.areEqual(1.0, INT.getFloat());
 	}
 
 	@Test
-	public function shouldParseString()
+	public function shouldGetString()
 	{
-		Assert.areEqual("foo", STRING.parseString());
-		Assert.areEqual("1.1", FLOAT.parseString());
+		Assert.areEqual("foo", STRING.getString());
+		Assert.areEqual("1.1", FLOAT.getString());
 	}
 
 	@Test
-	public function shouldParseBool()
+	public function shouldGetBool()
 	{
 		try
 		{
-			Assert.isNull(STRING.parseBool());
+			Assert.isNull(STRING.getBool());
 			Assert.fail("exception expected");
 		}
 		catch(e:Dynamic) {}
 
-		Assert.isTrue(TRUE.parseBool());
-		Assert.isFalse(FALSE.parseBool());
+		Assert.isTrue(TRUE.getBool());
+		Assert.isFalse(FALSE.getBool());
 	}
 
 	@Test
-	public function shouldParseRegexp()
+	public function shouldGetRegexp()
 	{
 		try
 		{
-			Assert.isNull(STRING.parseRegexp());
+			Assert.isNull(STRING.getRegexp());
 			Assert.fail("exception expected");
 		}
 		catch(e:Dynamic) {}
 
-		var reg = REGEXP.parseRegexp();
+		var reg = REGEXP.getRegexp();
 		Assert.isNotNull(reg);
 		Assert.isTrue(reg.match("Foo"));
 		Assert.isFalse(reg.match("bar"));
@@ -212,19 +212,19 @@ class ConstantsTest
 	@Test
 	public function shouldResolve()
 	{
-		Assert.areEqual(true, TRUE.resolve());
-		Assert.areEqual(false, FALSE.resolve());
-		Assert.areEqual(null, NULL.resolve());
-		Assert.areEqual(1, INT.resolve());
-		Assert.areEqual(1.1, FLOAT.resolve());
-		Assert.areEqual("foo", STRING.resolve());
+		Assert.areEqual(true, TRUE.toValue());
+		Assert.areEqual(false, FALSE.toValue());
+		Assert.areEqual(null, NULL.toValue());
+		Assert.areEqual(1, INT.toValue());
+		Assert.areEqual(1.1, FLOAT.toValue());
+		Assert.areEqual("foo", STRING.toValue());
 		
-		var reg = REGEXP.resolve();
+		var reg = REGEXP.toValue();
 		Assert.isNotNull(reg);
 		Assert.isTrue(reg.match("Foo"));
 		Assert.isFalse(reg.match("bar"));
 
-		Assert.areEqual(null, VAR.resolve());
+		Assert.areEqual(null, VAR.toValue());
 	}
 
 	@Test

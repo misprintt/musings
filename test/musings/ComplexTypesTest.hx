@@ -7,6 +7,7 @@ import haxe.macro.Expr;
 import haxe.macro.Type;
 import test.TestClasses;
 
+using haxe.macro.MacroStringTools;
 using musings.Tools;
 
 class ComplexTypesTest
@@ -16,44 +17,12 @@ class ComplexTypesTest
 
 	}
 
-
-	@Test
-	public function shouldConvertToExpr()
-	{
-		var expected = {pack:[], name:"A", sub:null, params:[]};
-		var actual = switch("A".toComplexType())
-		{
-			case TPath(tp): tp;
-			case _: null;
-		}
-
-		assertTypePathsEqual(expected, expected);
-
-		expected = {pack:["a","b"], name:"C", sub:"D", params:[]};
-		actual = switch("a.b.C.D".toComplexType())
-		{
-			case TPath(tp): tp;
-			case _: null;
-		}
-		assertTypePathsEqual(expected, expected);
-	}
-
-
-	function assertTypePathsEqual(expected:TypePath,actual:TypePath, ?pos:haxe.PosInfos)
-	{
-		Assert.isNotNull(expected, pos);
-		Assert.isNotNull(actual, pos);
-		Assert.areEqual(expected.pack.length, actual.pack.length, pos);
-		Assert.areEqual(expected.name, actual.name, pos);
-		Assert.areEqual(expected.sub, actual.sub, pos);
-		Assert.areEqual(expected.params.length, actual.params.length, pos);
-	}
-
 	@Test
 	public function shouldConvertToString()
 	{
-		var c = "a.b.C.D".toComplexType();
-		Assert.areEqual("a.b.C.D", c.toString());
+		var complex = TPath({pack:["a","b"], name:"C", sub:"D", params:[]});
+
+		Assert.areEqual("a.b.C.D", complex.toString());
 	}
 
 	@Test
@@ -67,7 +36,7 @@ class ComplexTypesTest
 		try
 		{
 			var ident = e.toString();
-			var complexType = ident.toComplexType();
+			var complexType = ident.toComplex();
 			var type = complexType.toType();
 
 			return type.toString().toConstant().at();
@@ -77,5 +46,43 @@ class ComplexTypesTest
 			return Std.string(e).toConstant().at();
 		}
 	}
+
+
+	@Test
+	public function should_return_default_type()
+	{
+		Assert.areEqual(null, macro_defaultType(String));
+
+		#if (flash || cpp || java || cs)
+		Assert.areEqual(false, macro_defaultType(Bool));
+		Assert.areEqual(0, macro_defaultType(Int));
+		#if flash
+			Assert.areEqual(Math.NaN, macro_defaultType(Float));
+		#else
+			Assert.areEqual(0.0, macro_defaultType(Float));
+		#end
+		
+		#else
+		Assert.areEqual(null, macro_defaultType(Bool));
+		Assert.areEqual(null, macro_defaultType(Int));
+		Assert.areEqual(null, macro_defaultType(Float));
+		#end
+	}
+
+	macro static function macro_defaultType(expr:Expr):Expr
+	{
+		try
+		{
+			var ident = expr.toString();
+			var complexType = ident.toComplex();
+
+			return complexType.getDefaultValue();
+		}
+		catch(e:Dynamic)
+		{
+			return Std.string(e).toConstant().at();
+		}
+	}
+
 
 }

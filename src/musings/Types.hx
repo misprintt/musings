@@ -19,47 +19,53 @@ class Types
 	#if macro
 
 	/**
-	Alias for Context.getType()
+		Alias for Context.getType()
 
-	@see haxe.macro.Context.getType
+		@see haxe.macro.Context.getType
 	*/
 	inline static public function toType(ident:String):Type
 	{
 		return Context.getType(ident);
 	}
 
+	/**
+		Returns string representation of underlying type (or null)
+	*/
 	static public function getId(t:Type, ?reduced = false)
 	{
 		if (reduced)
 			t = t.follow();
 		return
 			switch (t) {
-				case TAbstract(t, _): t.toString();
 				case TInst(t, _): t.toString();
 				case TEnum(t, _): t.toString();
 				case TType(t, _): t.toString();
+				case TAbstract(t,_): t.toString();
 				default: null;
 			}
 	}
 
 	/**
-	Extracts an array of param types from a TInst type
+		Returns an array of param types from a Type.
+		Returns null if Type doesn not have params
 	*/
 	static public function getParams(type:Type):Array<Type>
 	{
-		switch(type)
+		return switch(type)
 		{
-			case TInst(t,params): return params;
-			case _: throw "Unsupported type [" + Std.string(type) + "]";
+			case TInst(t,params): params;
+			case TEnum(t,params): params;
+			case TType(t,params): params;
+			case TAbstract(t,params): params;
+			case _: null;
 		}
 	}
 	
 	/**
-	Converts a Type to a TypeParam
+		Converts a Type to a TypeParam
 	*/
 	public static function toTypeParam(type:Type):TypeParam
 	{
-		
 		switch (type)
 		{
 			case TInst(t, params): return TPType(type.toComplexType());
@@ -68,9 +74,9 @@ class Types
 	}
 
 	/**
-	Alias for haxe.macro.TypeTools.getClass
+		Alias for haxe.macro.TypeTools.getClass
 
-	@see haxe.macro.TypeTools.getClass
+		@see haxe.macro.TypeTools.getClass
 	*/
 	inline static public function getClassType(type:Type):ClassType
 	{
@@ -78,38 +84,12 @@ class Types
 	}
 
 	/**
-	Alias for haxe.macro.TypeTools.getEnum
-
-	@see haxe.macro.TypeTools.getEnum
+		Alias for haxe.macro.TypeTools.getEnum
+		@see haxe.macro.TypeTools.getEnum
 	*/
 	inline static public function getEnumType(type:Type):EnumType
 	{
 		return haxe.macro.TypeTools.getEnum(type);
 	}
-
-	#if include_std_aliases
-
-	/**
-	Alias for haxe.macro.TypeTools.toString
-
-	@see haxe.macro.TypeTools.toString
-	*/
-	inline static public function toString(t:Type):String
-	{
-		return haxe.macro.TypeTools.toString(t);
-	}
-
-	/**
-	Alias for haxe.macro.TypeTools.toComplexType
-
-	@see haxe.macro.TypeTools.toComplexType
-	*/
-	inline static public function toComplexType(type:Type):ComplexType
-	{
-		return haxe.macro.TypeTools.toComplexType(type);
-	}
-
-	#end
-
 	#end
 }

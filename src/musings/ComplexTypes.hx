@@ -14,38 +14,58 @@ using musings.Tools;
 **/
 class ComplexTypes
 {
+	#if (haxe_ver < 3.1)
 	/**
 	Generates a ComplexType from a qualified path
 	*/
-	inline static public function toComplexType(ident:String):ComplexType
+	inline static public function toComplex(ident:String):ComplexType
 	{
 		return TPath(ident.toTypePath());
 	}
-
-	#if include_std_aliases
-	/**
-	Alias for haxe.macro.ComplexTypeTools.toString
-
-	@see haxe.macro.ComplexTypeTools.toString
-	*/
-	inline static public function toString(c:ComplexType):String
-	{
-		return haxe.macro.ComplexTypeTools.toString(c);
-	}
+	#end
 
 
 	#if macro
+
 	/**
-	Alias for haxe.macro.ComplexTypeTools.toType
+		Returns the default 'null' value for a type.
 
-	@see haxe.macro.ComplexTypeTools.toType
+		On static platforms (Flash, CPP, Java, C#), basic types have their own default values :
+
+		every Int is by default initialized to 0
+		every Float is by default initialized to NaN on Flash9+, and to 0.0 on CPP, Java and C#
+		every Bool is by default initialized to false
 	*/
-	inline static public function toType(c:ComplexType):Null<Type>
+	static public function getDefaultValue(type:ComplexType):Expr
 	{
-		return haxe.macro.ComplexTypeTools.toType(c);
+		if(Tools.isStaticPlatform())
+		{
+			switch(type)
+			{
+				case TPath(p):
+				{
+					if(p.pack.length != 0) return EConst(CIdent("null")).at();
+
+					if(p.name == "StdTypes") p.name = p.sub;
+
+					switch(p.name)
+					{
+						case "Bool":
+							return EConst(CIdent("false")).at();
+						case "Int":
+							return EConst(CInt("0")).at();
+						case "Float":
+							if( Context.defined("flash"))
+								return "Math.NaN".toFieldExpr();
+							else
+								return EConst(CFloat("0.0")).at();
+						default: null;
+					}	
+				}
+				default: null;
+			}
+		}
+		return EConst(CIdent("null")).at();
 	}
-
-	#end
-
 	#end
 }

@@ -6,6 +6,7 @@ import musings.ConstantsTest;
 import musings.ExprsTest;
 import musings.FieldsTest;
 import musings.PositionsTest;
+import musings.ToolsTest;
 import musings.TypePathsTest;
 import musings.TypesTest;
 
@@ -27,6 +28,7 @@ class TestSuite extends massive.munit.TestSuite
 		add(musings.ExprsTest);
 		add(musings.FieldsTest);
 		add(musings.PositionsTest);
+		add(musings.ToolsTest);
 		add(musings.TypePathsTest);
 		add(musings.TypesTest);
 	}

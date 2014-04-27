@@ -18,7 +18,7 @@ using musings.Tools;
 class Exprs
 {
 	/**
-	Converts an ExprDef [e] (and optional Position [pos]) into an Expr
+		Converts an ExprDef [e] (and optional Position [pos]) into an Expr
 	*/
 	inline static public function toExpr(e:ExprDef, ?pos:Position):Expr
 	{
@@ -26,26 +26,73 @@ class Exprs
 	}
 
 	/**
-	Shorthand to convert an ExprDef into an Expr
+		Shorthand to convert an ExprDef [e] into an Expr
 	*/
 	inline static public function at(e:ExprDef, ?pos:Position):Expr
 	{
 		return e.toExpr(pos);
 	}
 
+	/**
+		Backwards safe wrapper for converting to a TypedExpr (requires haxe 3.1)
+	**/
+	static public function toTypedExpr(expr:Expr):Expr
+	{
+		#if (haxe_ver >= 3.1)
+		try
+		{
+			var typeExpr = Context.typeExpr(expr);
+			expr = Context.getTypedExpr(typeExpr);
+		}
+		catch(e:Dynamic)
+		{
+			//possibly a typedef structure (cannot)
+		}
+		#end
+		return expr;
+	}
+
+	// --------------- expr manipulation
+
+	/**
+		Shorthand to create a reference to a EField
+	**/
+	static public inline function makeField(expr:Expr, field:String, ?pos:Position)
+	{
+		return EField(expr, field).at(pos);
+	}
+
+	/**
+		Shorthand for creation an ECall
+	**/
+	static public inline function makeCall(expr:Expr, ?params:Array<Expr>, ?pos:Position) 
+	{
+		return ECall(expr, params == null ? [] : params).at(pos);
+	}
+	
+	/**
+		Shorthand for converting an array of expressions ot an EArrayDecl
+	**/
+	static public inline function makeArray(exprs:Array<Expr>, ?pos:Position)
+	{
+		return EArrayDecl(exprs).at(pos);
+	} 
+
 	#if macro
 
 	/**
-	Converts a qualified path into a EField reference using `haxe.macro.ExprTools.toFieldExpr'
+		Converts a qualified path into a EField reference using `haxe.macro.ExprTools.toFieldExpr'
 	
-	@see haxe.macro.ExprTools.toFieldExpr
+		@see haxe.macro.ExprTools.toFieldExpr
 	*/
 	inline static public function toFieldExpr(ident:String,?pos:Position):Expr
 	{		
 		return haxe.macro.MacroStringTools.toFieldExpr(ident.split("."));
 	}
+
+	
 	/**
-	Replaces unqualified type references within expr [e] with fully qualified ones 
+		Replaces unqualified type references within expr [e] with fully qualified ones 
 	*/
 	static public function qualify(e:Expr):Expr
 	{
@@ -80,15 +127,12 @@ class Exprs
 				}
 			case _:
 				e.map(qualifyExpr);
-
 		}
-		
 	}
 	
-	
 	/**
-	Reduces the contents of an expression to a constant value (if possible).
-	Supports constants, basic binops and mapped idents
+		Reduces the contents of an expression to a constant value (if possible).
+		Supports constants, basic binops and mapped idents
 	*/
 	static var reduceMap:Map<String,Expr> = null;
 
@@ -121,10 +165,10 @@ class Exprs
 
 	#end
 
-
 	/**
-	Tries to calculate the binop value. If a value is not a Int, Float or String then defaults
-	back to original binop
+		Tries to calculate the binop value.
+		If a value is not a Int, Float or String then defaults
+		back to original binop
 	*/
 	static function reduceBinop(op:Binop, e1:Expr, e2:Expr):ExprDef
 	{
@@ -134,8 +178,8 @@ class Exprs
 		if(c1 == null || c2 == null)
 			return EBinop(op, e1, e2);
 
-		var v1 = c1.resolve();
-		var v2 = c2.resolve();
+		var v1 = c1.toValue();
+		var v2 = c2.toValue();
 
 		if(v1 == null || v2 == null)
 			return EBinop(op, e1, e2);
@@ -185,39 +229,4 @@ class Exprs
 
 		return null;
 	}
-
-
-	#if include_std_aliases
-	/**
-	Alias for haxe.macro.ExprTools.toString
-
-	@see haxe.macro.ExprTools.toString
-	*/
-	inline static public function toString(e:Expr):String
-	{
-		return haxe.macro.ExprTools.toString(e);
-	}
-
-	/**
-	Alias for haxe.macro.ExprTools.iter
-
-	@see haxe.macro.ExprTools.iter
-	*/
-	inline static public function iter( e : Expr, f : Expr -> Void ) : Void
-	{
-		return haxe.macro.ExprTools.iter(e,f);
-	}
-
-	/**
-	Alias for haxe.macro.ExprTools.map
-
-	@see haxe.macro.ExprTools.map
-	*/
-	inline static public function map( e : Expr, f : Expr -> Expr ) : Expr
-	{
-		return haxe.macro.ExprTools.map(e,f);
-	}
-
-	#end
-	
 }

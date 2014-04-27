@@ -20,9 +20,9 @@ using musings.Tools;
 class Positions
 {
 	/**
-	Returns the position [pos] or creates a new one based on current location.
+		Returns the position [pos] or creates a new one based on current location.
 
-	If not called within a macro, uses the posInfos of the callee
+		If not called within a macro, uses the posInfos of the callee
 	*/
 	inline static public function getPos(?pos:Position, ?infos:haxe.PosInfos):Position
 	{
@@ -34,7 +34,7 @@ class Positions
 	}
 
 	/**
-	Creates a new position based on a [file], [min] and [max] character position.
+		Creates a new position based on a [file], [min] and [max] character position.
 	*/
 	inline static public function makePos(?file:String, ?min:Int=0, ?max:Int=0, ?infos:haxe.PosInfos):Position
 	{
