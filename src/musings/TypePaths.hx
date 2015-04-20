@@ -15,7 +15,7 @@ using musings.Tools;
 class TypePaths
 {
 	/**
-		Returns a string representation of typePath [tp] without paramaters;
+		Returns a string representation of typePath [tp] without parameters;
 	*/
 	inline static public function toIdent(tp:TypePath)
 	{
@@ -24,7 +24,7 @@ class TypePaths
 	}
 	
 	/**
-		Returns a string representation of typePath [tp] (including paramaters);
+		Returns a string representation of typePath [tp] (including parameters);
 	*/
 	inline static public function toString(tp:TypePath):String
 	{
@@ -32,7 +32,7 @@ class TypePaths
 	}
 
 	/**
-		Returns a TypePath for the string [ident], and optional paramaters [params]
+		Returns a TypePath for the string [ident], and optional parameters [params]
 	*/
 	static public function toTypePath(ident:String, ?params:Array<TypeParam>):TypePath
 	{
